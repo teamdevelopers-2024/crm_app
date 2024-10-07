@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart'; // Import Bloc package
-import 'package:motta/bloc/list_card/list_card.bloc.dart';
+import 'package:motta/bloc/leads/leads.bloc.dart';
 import 'package:motta/controller/screen_size_controller.dart';
 import 'package:motta/models/leads_model.dart';
 import 'package:motta/utils/colors.dart';
@@ -30,7 +30,8 @@ Widget buildLeadsList(LeadBloc leadBloc) {
             alignment: Alignment.topCenter,
             padding: const EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
-              color: CRMAppColorPallete.containerBackground, // Background color for the list area
+              color: CRMAppColorPallete
+                  .containerBackground, // Background color for the list area
 
               borderRadius:
                   BorderRadius.circular(10), // Optional: Rounded corners
@@ -53,10 +54,10 @@ Widget buildLeadsList(LeadBloc leadBloc) {
                 final lead = leads[index];
 
                 return Padding(
-                  padding:
-                      const EdgeInsets.only(bottom: 10.0), // Space between cards
+                  padding: const EdgeInsets.only(
+                      bottom: 10.0), // Space between cards
 
-                  child: _buildLeadCard(leadBloc, lead,context),
+                  child: _buildLeadCard(leadBloc, lead, context),
                 );
               },
             ),
@@ -69,15 +70,14 @@ Widget buildLeadsList(LeadBloc leadBloc) {
   );
 }
 
-Widget _buildLeadCard(LeadBloc leadBloc, Lead lead,BuildContext context) {
+Widget _buildLeadCard(LeadBloc leadBloc, Lead lead, BuildContext context) {
   // Set current status based on lead.status
-  String currentStatus = lead.status;
+  String? currentStatus = lead.status;
 
   return Card(
-    color: CRMAppColorPallete.transparent, // Lighter card color as seen in the image
+    color: CRMAppColorPallete
+        .transparent, // Lighter card color as seen in the image
     elevation: 1.0,
-    surfaceTintColor: CRMAppColorPallete.cardTile,
-
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     child: Padding(
       padding: const EdgeInsets.all(12.0),
@@ -87,14 +87,14 @@ Widget _buildLeadCard(LeadBloc leadBloc, Lead lead,BuildContext context) {
           Row(
             children: [
               // Circle Avatar at the top left
-              FittedBox(
+               FittedBox(
                 // fit: BoxFit.cover,
                 child: CircleAvatar(
-                  
-                  radius: 24.0,
-                  backgroundColor:
-                      CRMAppColorPallete.boldTextColor, // You can change this to any color or image
-                  child: Icon(Icons.person, color: CRMAppColorPallete.cardTile,size:24*1.5),
+                  radius: Screen.getWidth(context: context)*0.05,
+                  backgroundColor: CRMAppColorPallete
+                      .boldTextColor, // You can change this to any color or image
+                  child: Icon(Icons.person,
+                      color: CRMAppColorPallete.cardTile, size: Screen.getWidth(context: context)*0.05 * 1.5),
                 ),
               ),
               const SizedBox(width: 10.0), // Small gap after the avatar
@@ -107,8 +107,8 @@ Widget _buildLeadCard(LeadBloc leadBloc, Lead lead,BuildContext context) {
                     // Lead Name
                     Text(
                       lead.name,
-                      style: const TextStyle(
-                        fontSize: 18.0,
+                      style: TextStyle(
+                        fontSize: Screen.getWidth(context: context)*0.04,
                         fontWeight: FontWeight.bold,
                         color: CRMAppColorPallete.boldTextColor,
                       ),
@@ -116,8 +116,8 @@ Widget _buildLeadCard(LeadBloc leadBloc, Lead lead,BuildContext context) {
                     // Lead Location
                     Text(
                       lead.location,
-                      style: const TextStyle(
-                        fontSize: 14.0,
+                      style: TextStyle(
+                        fontSize: Screen.getWidth(context: context)*0.03,
                         color: CRMAppColorPallete.textColor,
                       ),
                     ),
@@ -131,15 +131,18 @@ Widget _buildLeadCard(LeadBloc leadBloc, Lead lead,BuildContext context) {
                   // Add your close request logic here
                   // leadBloc.add(SendCloseRequest(lead.id)); // Assuming there's an event for this
                 },
-                icon: const Icon(Icons.close, color: Colors.white),
-                label: const Text(
+                icon: Icon(CupertinoIcons.person_crop_circle_fill_badge_checkmark, color: CRMAppColorPallete.lightBlue,size: Screen.getWidth(context: context)*0.06,),
+                label: Text(
                   'Close request',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: CRMAppColorPallete.lightBlue,fontSize: Screen.getWidth(context: context)*0.03),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.redAccent, // Button color
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  elevation: 0,
+                  side: BorderSide(color: CRMAppColorPallete.lightBlue),
+                  backgroundColor: CRMAppColorPallete.lightBlue.withOpacity(0.04), // Button color
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20), // Rounded corners
+                    borderRadius: BorderRadius.circular(15), // Rounded corners
                   ),
                 ),
               ),
@@ -151,12 +154,14 @@ Widget _buildLeadCard(LeadBloc leadBloc, Lead lead,BuildContext context) {
           // Email and Phone
           Text(
             lead.email,
-            style: const TextStyle(fontSize: 14.0, color: CRMAppColorPallete.textColor),
+            style: const TextStyle(
+                fontSize: 14.0, color: CRMAppColorPallete.textColor),
           ),
           const SizedBox(height: 4.0),
           Text(
             lead.phone,
-            style: const TextStyle(fontSize: 14.0, color: CRMAppColorPallete.textColor),
+            style: const TextStyle(
+                fontSize: 14.0, color: CRMAppColorPallete.textColor),
           ),
 
           const SizedBox(
@@ -166,33 +171,53 @@ Widget _buildLeadCard(LeadBloc leadBloc, Lead lead,BuildContext context) {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Dropdown Button at the bottom left
-              DropdownButton<String>(
-
-                value: currentStatus,
-                dropdownColor:
-                     CRMAppColorPallete.dropdownBackground, // Match dropdown background
-                icon: const Icon(CupertinoIcons.arrowtriangle_down_circle, color: CRMAppColorPallete.dropdownText),
-                items:
-                    leadStatuses.map<DropdownMenuItem<String>>((String status) {
-                  return DropdownMenuItem<String>(
-                    value: status,
-                    enabled: status != 'Closed', // Disable the 'Closed' option
-                    child: Text(
-                      status,
-                      style: TextStyle(
-                        color: status == 'Closed' ? Colors.grey : Colors.white,
+              Container(
+                
+                padding: EdgeInsets.only(left:8,right:8,top: 6,bottom: 6),
+                decoration: BoxDecoration(
+                  
+                  border: Border.all(color: CRMAppColorPallete.boldTextColor),
+                  borderRadius: BorderRadius.all(Radius.circular(12))
+                ),
+                child: DropdownButton<String>(
+                  elevation: 0,
+                  enableFeedback: false,  
+                  isExpanded: false,
+                  isDense: true,
+                  underline: SizedBox(),
+                hint: Text('Select status'),
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                
+                  value: currentStatus,
+                
+                  dropdownColor: CRMAppColorPallete
+                      .dropdownBackground, // Match dropdown background
+                  icon: const Icon(CupertinoIcons.arrowtriangle_down_circle,
+                      color: CRMAppColorPallete.textColor),
+                  items:
+                      leadStatuses.map<DropdownMenuItem<String>>((String status) {
+                    return DropdownMenuItem<String>(
+                      
+                      value: status,
+                      enabled: status != 'Closed', // Disable the 'Closed' option
+                      child: Text(
+                        status,
+                        style: TextStyle(
+                          fontSize: Screen.getWidth(context: context)*0.03,
+                          color: status == 'Closed' ? Colors.grey : CRMAppColorPallete.textColor,
+                        ),
                       ),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (String? newStatus) {
-                  // Only allow updates if the new status is not 'Closed'
-                  if (newStatus != null &&
-                      newStatus != 'Closed' &&
-                      newStatus != currentStatus) {
-                    leadBloc.add(UpdateLeadStatus(lead.id, newStatus));
-                  }
-                },
+                    );
+                  }).toList(),
+                  onChanged: (String? newStatus) {
+                    // Only allow updates if the new status is not 'Closed'
+                    if (newStatus != null &&
+                        newStatus != 'Closed' &&
+                        newStatus != currentStatus) {
+                      leadBloc.add(UpdateLeadStatus(lead.id, newStatus));
+                    }
+                  },
+                ),
               ),
 
               // Call Button at the bottom right
@@ -200,15 +225,18 @@ Widget _buildLeadCard(LeadBloc leadBloc, Lead lead,BuildContext context) {
                 onPressed: () {
                   // Add your call logic here, perhaps using url_launcher to dial the number
                 },
-                icon: const Icon(Icons.phone, color: Colors.white),
+                icon: Icon(CupertinoIcons.phone_arrow_up_right, color: CRMAppColorPallete.boldTextColor,size: Screen.getWidth(context: context)*0.05,),
                 label:
                     const Text('Call', style: TextStyle(color: Colors.white)),
                 style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  side: BorderSide(color: CRMAppColorPallete.boldTextColor),
+                  elevation: 0,
                   backgroundColor:
-                      Colors.green, // Adjust the color of the call button
+                      CRMAppColorPallete.transparent, // Adjust the color of the call button
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
-                        20), // Rounded corners for the button
+                        12), // Rounded corners for the button
                   ),
                 ),
               ),

@@ -2,10 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motta/models/leads_model.dart';
-import 'package:motta/utils/enums.dart';
 
-part 'list_card.event.dart';
-part 'list_card.state.dart';
+part 'leads.event.dart';
+part 'leads.state.dart';
 
 class LeadBloc extends Bloc<LeadEvent, LeadState> {
   LeadBloc() : super(LeadInitial()) {
@@ -15,20 +14,56 @@ class LeadBloc extends Bloc<LeadEvent, LeadState> {
 
       try {
         // Simulate API call or data fetch
-        await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(const Duration(seconds: 2));
 
         List<Lead> leads = [
-          Lead(id: 1, name: "John Doe", location: "New York", email: "john@example.com", phone: "123456789", status: "Pending"),
-          Lead(id: 2, name: "Jane Smith", location: "California", email: "jane@example.com", phone: "987654321", status: "Closed"),
-          Lead(id: 2, name: "Jane Smith", location: "California", email: "jane@example.com", phone: "987654321", status: "Closed"),
-          Lead(id: 2, name: "Jane Smith", location: "California", email: "jane@example.com", phone: "987654321", status: "Closed"),
-          Lead(id: 2, name: "Jane Smith", location: "California", email: "jane@example.com", phone: "987654321", status: "Closed"),
-          Lead(id: 2, name: "Jane Smith", location: "California", email: "jane@example.com", phone: "987654321", status: "Closed"),
+          Lead(
+              id: 1,
+              name: "John Doe",
+              location: "New York",
+              email: "john@example.com",
+              phone: "123456789",
+              status: "Pending"),
+          Lead(
+              id: 2,
+              name: "Jane Smith",
+              location: "California",
+              email: "jane@example.com",
+              phone: "987654321",
+              status: "Closed"),
+          Lead(
+              id: 2,
+              name: "Jane Smith",
+              location: "California",
+              email: "jane@example.com",
+              phone: "987654321",
+              status: "Closed"),
+          Lead(
+              id: 2,
+              name: "Jane Smith",
+              location: "California",
+              email: "jane@example.com",
+              phone: "987654321",
+              status: "Closed"),
+          Lead(
+              id: 2,
+              name: "Jane Smith",
+              location: "California",
+              email: "jane@example.com",
+              phone: "987654321",
+              status: "Closed"),
+          Lead(
+              id: 2,
+              name: "Jane Smith",
+              location: "California",
+              email: "jane@example.com",
+              phone: "987654321",
+              status: "Closed"),
         ];
 
         emit(LeadLoaded(leads: leads, selectedFilter: 'All', searchQuery: ''));
       } catch (e) {
-        emit(LeadError("Failed to load leads."));
+        emit(const LeadError("Failed to load leads."));
       }
     });
 

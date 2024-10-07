@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motta/dependency_injection.dart';
 import 'package:motta/views/screens/home/dashboard_page.dart';
 
-void main(){
+void main() {
   runApp(const CRMApp());
 }
 
-
-
-
 class CRMApp extends StatelessWidget {
-  const CRMApp ({super.key});
+  const CRMApp({super.key});
 
   @override
   Widget build(BuildContext context) {

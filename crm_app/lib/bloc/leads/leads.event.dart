@@ -1,4 +1,4 @@
-part of 'list_card.bloc.dart';
+part of 'leads.bloc.dart';
 
 @immutable
 sealed class LeadEvent extends Equatable {

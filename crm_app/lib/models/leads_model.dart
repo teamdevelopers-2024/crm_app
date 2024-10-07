@@ -1,11 +1,11 @@
 // lead_model.dart
 class Lead {
-  final int id;
+  final String id;
   final String name;
   final String location;
   final String email;
   final String phone;
-  final String status;
+  final String? status;
 
   Lead({
     required this.id,
@@ -13,7 +13,7 @@ class Lead {
     required this.location,
     required this.email,
     required this.phone,
-    required this.status,
+    this.status,
   });
 
   // Method to update status

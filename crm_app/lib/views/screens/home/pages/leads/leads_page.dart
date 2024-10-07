@@ -1,8 +1,10 @@
 // leads_page.dart
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:motta/bloc/list_card/list_card.bloc.dart';
-import 'package:motta/models/leads_model.dart';
+import 'package:motta/bloc/leads/leads.bloc.dart';
+import 'package:motta/controller/screen_size_controller.dart';
+import 'package:motta/utils/colors.dart';
 import 'package:motta/views/screens/home/pages/leads/widgets/filter_tabs.dart';
 import 'package:motta/views/screens/home/pages/leads/widgets/leads_list.dart';
 
@@ -11,13 +13,14 @@ class LeadsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LeadBloc leadBloc = context.read<LeadBloc>(); // Get the LeadBloc from the context
+    LeadBloc leadBloc =
+        context.read<LeadBloc>(); // Get the LeadBloc from the context
 
     return Scaffold(
-      backgroundColor: Color(0xFF172554),
+      backgroundColor: const Color(0xFF172554),
       appBar: AppBar(
-        backgroundColor: Color(0xFF0A4584),
-        title: Text('Leads'),
+        backgroundColor: const Color(0xFF0A4584),
+        title: const Text('Leads'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
@@ -25,22 +28,24 @@ class LeadsPage extends StatelessWidget {
           builder: (context, state) {
             if (state is LeadInitial) {
               leadBloc.add(LoadLeads());
-              return Center(child: Text("Welcome!"));
+              return const Center(child: Text("Welcome!"));
             } else if (state is LeadLoading) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (state is LeadLoaded) {
               return Column(
                 children: [
                   _buildSearchBar(context),
                   buildFilterTabs(leadBloc, state),
-                  SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   buildLeadsList(leadBloc),
                 ],
               );
             } else if (state is LeadError) {
               return Center(child: Text(state.error));
             }
-            return SizedBox.shrink();
+            return const SizedBox.shrink();
           },
         ),
       ),
@@ -49,17 +54,28 @@ class LeadsPage extends StatelessWidget {
 
   Widget _buildSearchBar(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(vertical: 10,horizontal: Screen.getWidth(context: context)*0.03),
       child: TextField(
+        
         onChanged: (query) {
           context.read<LeadBloc>().add(SearchLeads(query));
         },
-        decoration: InputDecoration(
-          hintText: 'Search',
+
+        style: const TextStyle(color: Colors.white,),
+        decoration: InputDecoration(labelText: 'Search leads',contentPadding: EdgeInsets.zero,enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12),borderSide: BorderSide(color: CRMAppColorPallete.searchBarBackground)),
+          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: CRMAppColorPallete.boldTextColor),borderRadius: BorderRadius.circular(12)),
+          hintText: 'Search leads...',
+          labelStyle:TextStyle(color: Colors.white70),
+          hintFadeDuration: Duration(milliseconds: 700),
+          alignLabelWithHint: true,
+          hintStyle: TextStyle(color: Colors.white70),
+          
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+          floatingLabelStyle: TextStyle(color: CRMAppColorPallete.boldTextColor),
           filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          prefixIcon: Icon(Icons.search, color: Colors.black),
+          fillColor: CRMAppColorPallete.cardTile.withOpacity(0.6),
+          
+          prefixIcon: const Icon(CupertinoIcons.doc_text_search, color: Colors.white70),
         ),
       ),
     );

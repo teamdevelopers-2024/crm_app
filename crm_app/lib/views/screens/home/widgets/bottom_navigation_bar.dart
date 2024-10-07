@@ -8,13 +8,16 @@ import 'package:motta/views/screens/home/widgets/animated_bar.dart';
 import 'package:rive/rive.dart';
 
 Positioned bottomNavigationBar(
-    BuildContext context, NavigationBloc navigationBloc,List<StateMachineController?> controllers,int currentIndex){
+    BuildContext context,
+    NavigationBloc navigationBloc,
+    List<StateMachineController?> controllers,
+    int currentIndex) {
   // Initialize riveIconInputs with the same length as bottomNavItems
   List<SMIBool?> riveIconInputs = List.filled(bottomNavItems.length, null);
   animateTheIcon(int index, NavigationBloc navigationBloc) {
     if (riveIconInputs[index] != null) {
       riveIconInputs[index]?.change(true);
-      Future.delayed(Duration(seconds: 1), () {
+      Future.delayed(const Duration(seconds: 1), () {
         riveIconInputs[index]?.change(false);
       });
     }
@@ -61,9 +64,9 @@ Positioned bottomNavigationBar(
           child: Container(
             padding:
                 const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.transparent,
-              borderRadius: const BorderRadius.all(Radius.circular(24)),
+              borderRadius: BorderRadius.all(Radius.circular(24)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,7 +78,9 @@ Positioned bottomNavigationBar(
                   },
                   child: Column(
                     children: [
-                      AnimatedBar(isActive: currentIndex == index,),
+                      AnimatedBar(
+                        isActive: currentIndex == index,
+                      ),
                       SizedBox(
                         height: 36,
                         width: 36,

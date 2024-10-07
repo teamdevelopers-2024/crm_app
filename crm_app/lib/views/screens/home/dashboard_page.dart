@@ -18,53 +18,50 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-
   int currentIndex = 0;
 
-    // Initialize riveIconInputs with the same length as bottomNavItems
-    List<SMIBool?> riveIconInputs = List.filled(bottomNavItems.length, null);
+  // Initialize riveIconInputs with the same length as bottomNavItems
+  List<SMIBool?> riveIconInputs = List.filled(bottomNavItems.length, null);
 
-    // List of pages to switch between
-    final List<Widget> pages = [
-      LeadsPage(), // Replace with your actual Home Page widget
-      const Center(
-          child:
-              Text('3D Stack Page')), // Replace with the 3D Stack Page widget
-      const Center(
-          child: Text('Profile Page')), // Replace with the Profile Page widget
-    ];
-    List<StateMachineController?> controllers = [];
-    animateTheIcon(int index,NavigationBloc navigationBloc) {
-      if (riveIconInputs[index] != null) {
-        riveIconInputs[index]?.change(true);
-        Future.delayed(Duration(seconds: 1), () {
-          riveIconInputs[index]?.change(false);
-        });
-      }
-      // Dispatch the navigation event to change the page
-      navigationBloc.add(NavigateToPage(currentIndex: index));
+  // List of pages to switch between
+  final List<Widget> pages = [
+    const LeadsPage(), // Replace with your actual Home Page widget
+    const Center(
+        child: Text('3D Stack Page')), // Replace with the 3D Stack Page widget
+    const Center(
+        child: Text('Profile Page')), // Replace with the Profile Page widget
+  ];
+  List<StateMachineController?> controllers = [];
+  animateTheIcon(int index, NavigationBloc navigationBloc) {
+    if (riveIconInputs[index] != null) {
+      riveIconInputs[index]?.change(true);
+      Future.delayed(const Duration(seconds: 1), () {
+        riveIconInputs[index]?.change(false);
+      });
     }
+    // Dispatch the navigation event to change the page
+    navigationBloc.add(NavigateToPage(currentIndex: index));
+  }
 
-    void riveOnInit(
-        {required Artboard artboard,
-        required RiveModel riveIcon,
-        required int index}) {
-      StateMachineController? controller = StateMachineController.fromArtboard(
-        artboard,
-        riveIcon.stateMachineName,
-      );
-      if (controller != null) {
-        artboard.addController(controller);
-        controllers.add(controller);
-        // Make sure the right index is updated with the SMIBool input
-        riveIconInputs[index] = controller.findInput<bool>("active") as SMIBool;
-      }
+  void riveOnInit(
+      {required Artboard artboard,
+      required RiveModel riveIcon,
+      required int index}) {
+    StateMachineController? controller = StateMachineController.fromArtboard(
+      artboard,
+      riveIcon.stateMachineName,
+    );
+    if (controller != null) {
+      artboard.addController(controller);
+      controllers.add(controller);
+      // Make sure the right index is updated with the SMIBool input
+      riveIconInputs[index] = controller.findInput<bool>("active") as SMIBool;
     }
+  }
 
   @override
   void dispose() {
-    for(var controller in controllers){
+    for (var controller in controllers) {
       controller?.dispose();
     }
     super.dispose();
@@ -72,12 +69,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    
     NavigationBloc navigationBloc = context.read<NavigationBloc>();
 
     return SafeArea(
       child: Scaffold(
         backgroundColor: CRMAppColorPallete.scaffoldBackgroundColor,
+        appBar: AppBar(leading:Container(child: AssetImage('assets/logo/code_and_click.png'),),),
         body: BlocBuilder<NavigationBloc, NavigationState>(
           builder: (context, state) {
             if (state is NavigationChanged) {
@@ -103,13 +100,10 @@ class _HomePageState extends State<HomePage> {
                   left: MediaQuery.of(context).size.width * 0.1,
                   right: MediaQuery.of(context).size.width * 0.1,
                   child: ClipRRect(
-                    
                     borderRadius:
                         BorderRadius.circular(24), // Round the corners
                     child: BackdropFilter(
-                      
                       filter: ImageFilter.blur(
-                        
                           sigmaX: 8, sigmaY: 8), // Apply the blur effect
                       child: Container(
                         decoration: const BoxDecoration(
@@ -124,11 +118,11 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 12.0),
-                          decoration: BoxDecoration(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 12.0),
+                          decoration: const BoxDecoration(
                             color: Colors.transparent,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(24)),
+                            borderRadius: BorderRadius.all(Radius.circular(24)),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -137,16 +131,19 @@ class _HomePageState extends State<HomePage> {
                               final riveIcon = bottomNavItems[index].rive;
                               return GestureDetector(
                                 onTap: () {
-                                  animateTheIcon(index,navigationBloc);
+                                  animateTheIcon(index, navigationBloc);
                                 },
                                 child: Column(
                                   children: [
-                                    AnimatedBar(isActive: currentIndex == index,),
+                                    AnimatedBar(
+                                      isActive: currentIndex == index,
+                                    ),
                                     SizedBox(
                                       height: 36,
                                       width: 36,
                                       child: Opacity(
-                                        opacity: currentIndex == index ? 1 : 0.5,
+                                        opacity:
+                                            currentIndex == index ? 1 : 0.5,
                                         child: RiveAnimation.asset(
                                           riveIcon.src,
                                           artboard: riveIcon.artboard,
@@ -179,4 +176,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-

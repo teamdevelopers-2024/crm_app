@@ -1,6 +1,6 @@
 // lead_model.dart
 class Lead {
-  final int id;
+  final String id;
   final String name;
   final String location;
   final String email;

@@ -74,6 +74,7 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: CRMAppColorPallete.scaffoldBackgroundColor,
+        appBar: AppBar(leading:Container(child: AssetImage('assets/logo/code_and_click.png'),),),
         body: BlocBuilder<NavigationBloc, NavigationState>(
           builder: (context, state) {
             if (state is NavigationChanged) {

@@ -18,42 +18,42 @@ class LeadBloc extends Bloc<LeadEvent, LeadState> {
 
         List<Lead> leads = [
           Lead(
-              id: 1,
+              id: '1',
               name: "John Doe",
               location: "New York",
               email: "john@example.com",
               phone: "123456789",
               status: "Pending"),
           Lead(
-              id: 2,
+              id: '2',
               name: "Jane Smith",
               location: "California",
               email: "jane@example.com",
               phone: "987654321",
               status: "Closed"),
           Lead(
-              id: 2,
+              id: '2',
               name: "Jane Smith",
               location: "California",
               email: "jane@example.com",
               phone: "987654321",
               status: "Closed"),
           Lead(
-              id: 2,
+              id: '2',
               name: "Jane Smith",
               location: "California",
               email: "jane@example.com",
               phone: "987654321",
               status: "Closed"),
           Lead(
-              id: 2,
+              id: '2',
               name: "Jane Smith",
               location: "California",
               email: "jane@example.com",
               phone: "987654321",
               status: "Closed"),
           Lead(
-              id: 2,
+              id: '2',
               name: "Jane Smith",
               location: "California",
               email: "jane@example.com",
@@ -69,26 +69,12 @@ class LeadBloc extends Bloc<LeadEvent, LeadState> {
 
     // Filter leads
     on<FilterLeads>((event, emit) {
-      if (state is LeadLoaded) {
-        final currentState = state as LeadLoaded;
-        emit(LeadLoaded(
-          leads: currentState.leads,
-          selectedFilter: event.filter,
-          searchQuery: currentState.searchQuery,
-        ));
-      }
+      
     });
 
     // Search leads
     on<SearchLeads>((event, emit) {
-      if (state is LeadLoaded) {
-        final currentState = state as LeadLoaded;
-        emit(LeadLoaded(
-          leads: currentState.leads,
-          selectedFilter: currentState.selectedFilter,
-          searchQuery: event.query,
-        ));
-      }
+      
     });
 
     // Update lead status

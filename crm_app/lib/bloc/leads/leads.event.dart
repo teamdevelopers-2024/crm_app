@@ -29,7 +29,7 @@ class SearchLeads extends LeadEvent {
 }
 
 class UpdateLeadStatus extends LeadEvent {
-  final int leadId;
+  final String leadId;
   final String newStatus;
 
   const UpdateLeadStatus(this.leadId, this.newStatus);
